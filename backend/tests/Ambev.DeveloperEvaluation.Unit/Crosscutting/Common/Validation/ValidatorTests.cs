@@ -16,7 +16,7 @@ namespace Ambev.DeveloperEvaluation.Unit.Crosscutting.Common.Validation
             var erros = await Validator.ValidateAsync(validatorType);
 
             // Assert
-            Assert.Null(erros);  
+            Assert.Null(erros);
         }
     }
 }

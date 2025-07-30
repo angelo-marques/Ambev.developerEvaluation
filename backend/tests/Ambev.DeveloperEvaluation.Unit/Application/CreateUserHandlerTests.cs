@@ -1,10 +1,12 @@
 using Ambev.DeveloperEvaluation.Application.Users.CreateUser;
 using Ambev.DeveloperEvaluation.Common.Security;
 using Ambev.DeveloperEvaluation.Domain.Entities;
+using Ambev.DeveloperEvaluation.Domain.Enums;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Ambev.DeveloperEvaluation.Unit.Domain;
 using AutoMapper;
 using FluentAssertions;
+using FluentValidation;
 using NSubstitute;
 using Xunit;
 
@@ -160,4 +162,31 @@ public class CreateUserHandlerTests
             c.Status == command.Status &&
             c.Role == command.Role));
     }
+
+
+    [Fact]
+    public async Task Handle_InvalidCommand_ThrowsValidationException()
+    {
+        // Arrange
+        var userRepository = Substitute.For<IUserRepository>();
+        var mapper = Substitute.For<IMapper>();
+        var passwordHasher = Substitute.For<IPasswordHasher>();
+
+        var command = new CreateUserCommand
+        {
+            Username = "te",
+            Password = "password",
+            Email = "testexample.com",
+            Phone = "15551234567",
+            Status = UserStatus.Unknown,
+            Role = UserRole.None
+        };
+
+        var handler = new CreateUserHandler(userRepository, mapper, passwordHasher);
+
+        // Act & Assert
+        await Assert.ThrowsAsync<ValidationException>(() => handler.Handle(command, CancellationToken.None));
+        await userRepository.DidNotReceive().CreateAsync(Arg.Any<User>(), Arg.Any<CancellationToken>());
+    }
+
 }

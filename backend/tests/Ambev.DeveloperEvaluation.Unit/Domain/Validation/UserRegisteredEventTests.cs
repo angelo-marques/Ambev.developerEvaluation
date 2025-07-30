@@ -1,12 +1,6 @@
 ﻿using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Events;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
 
 namespace Ambev.DeveloperEvaluation.Unit.Domain.Validation
 {
