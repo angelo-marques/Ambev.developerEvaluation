@@ -44,7 +44,7 @@ namespace Ambev.DeveloperEvaluation.Application.Products.CreateProduct.Validator
             RuleFor(product => product.Category)
                 .NotNull()
                 .WithMessage("The product category must not be null.")
-                .SetValidator(new CreateCategoryInfoCommandValidator());
+                .SetValidator(new CreateCategoryCommandValidator());
 
             // Validates that the Rating object is not null and valid.
             RuleFor(product => product.Rating)

@@ -2,20 +2,18 @@
 
 namespace Ambev.DeveloperEvaluation.Domain.Entities
 {
-  
-public class Product : BaseEntity
+    public class Product : BaseEntity
     {
         public string Title { get; private set; } = string.Empty;
         public decimal Price { get; private set; }
         public string Description { get; private set; } = string.Empty;
         public string Image { get; private set; } = string.Empty;
-        public string Category { get; private set; } = string.Empty;
+        public Category Category { get; private set; } = default!;
         public Rating Rating { get; private set; } = default!;
 
-        // Construtor privado para ORMs
         private Product() { }
 
-        public Product(string title, decimal price, string description, string image, string category, Rating rating)
+        public Product(string title, decimal price, string description, string image, Category category, Rating rating)
         {
             if (string.IsNullOrWhiteSpace(title))
                 throw new ArgumentException("Title cannot be empty.", nameof(title));
@@ -39,7 +37,7 @@ public class Product : BaseEntity
             Price = newPrice;
         }
 
-        public void UpdateCategory(string newCategory)
+        public void UpdateCategory(Category newCategory)
         {
             Category = newCategory ?? throw new ArgumentNullException(nameof(newCategory));
         }
@@ -49,5 +47,4 @@ public class Product : BaseEntity
             Rating = newRating ?? throw new ArgumentNullException(nameof(newRating));
         }
     }
-
 }

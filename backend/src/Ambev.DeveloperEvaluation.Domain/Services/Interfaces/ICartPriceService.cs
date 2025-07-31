@@ -1,6 +1,7 @@
-namespace Ambev.DeveloperEvaluation.Domain.Services.Interfaces;
-
-public interface ICartPriceService
+namespace Ambev.DeveloperEvaluation.Domain.Services.Interfaces
 {
-    Task<decimal> GetPriceTotalAsync(Guid cartId);
+    public interface ICartPriceService
+    {
+        Task<decimal> GetPriceTotalAsync(Guid cartId);
+    }
 }

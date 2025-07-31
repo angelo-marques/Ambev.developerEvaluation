@@ -15,7 +15,7 @@ namespace Ambev.DeveloperEvaluation.Application.Products.GetProduct
 
             CreateMap<Product, GetProductResponse>();
 
-            //CreateMap<CategoryInfo, GetCategoryInfoResponse>();
+            CreateMap<Category, GetCategoryResponse>();
             CreateMap<Rating, GetRatingInfoResponse>();
         }
     }

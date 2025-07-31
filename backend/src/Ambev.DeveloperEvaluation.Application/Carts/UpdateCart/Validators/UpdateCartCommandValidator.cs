@@ -5,18 +5,7 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.UpdateCart.Validators
 {
     public class UpdateCartCommandValidator : AbstractValidator<UpdateCartCommand>
     {
-        /// <summary>
-        /// Initializes a new instance of the <see cref="UpdateCartCommandValidator"/> with defined validation rules.
-        /// </summary>
-        /// <remarks>
-        /// Validation rules include:
-        /// - <see cref="UpdateCartCommand.UserId"/>: Must be a valid GUID and not empty.
-        /// - <see cref="UpdateCartCommand.Date"/>: Required and cannot be set to a future date.
-        /// - <see cref="UpdateCartCommand.Updates"/>: Must not be empty and should contain valid carts.
-        /// 
-        /// Each cart in the list is validated using the <see cref="UpdateCartItemCommandValidator"/> 
-        /// to ensure that cart-specific rules are followed, including valid cart ID and quantity constraints.
-        /// </remarks>
+   
         public UpdateCartCommandValidator()
         {
             RuleFor(x => x.UserId)

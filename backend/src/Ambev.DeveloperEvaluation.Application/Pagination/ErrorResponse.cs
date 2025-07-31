@@ -2,7 +2,6 @@ using Ambev.DeveloperEvaluation.Common.Validation;
 
 namespace Ambev.DeveloperEvaluation.Application.Pagination
 {
-
     public class ErrorResponse
     {
         public bool Success { get; set; }

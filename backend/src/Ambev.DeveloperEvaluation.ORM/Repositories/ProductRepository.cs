@@ -10,10 +10,6 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
     {
         private readonly DefaultContext _context;
 
-        /// <summary>
-        /// Initializes a new instance of ProductRepository
-        /// </summary>
-        /// <param name="context">The database context</param>
         public ProductRepository(DefaultContext context)
         {
             _context = context;
@@ -64,8 +60,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
                 ?? throw new KeyNotFoundException("Produto não encontrado.");
             _context.Entry(existingProduct).CurrentValues.SetValues(product);
 
-            // Atualiza propriedades complexas manualmente
-          //  existingProduct.UpdateCategory(new CategoryInfo(product.Category.ExternalId, product.Category.Name));
+            existingProduct.UpdateCategory(new Category(product.Category.ExternalId, product.Category.Name));
             existingProduct.UpdateRating(new Rating(product.Rating.ExternalId, product.Rating.AverageRate, product.Rating.TotalReviews));
 
             await _context.SaveChangesAsync(cancellationToken);
@@ -87,18 +82,16 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
         public async Task<List<string>> GetCategoriesAsync(CancellationToken cancellationToken = default)
         {
             return await _context.Products
-            .Select(p => p.Category.ToString())//TODO alterar
+            .Select(p => p.Category.Name)
             .Distinct()
             .ToListAsync();
         }
 
         public async Task<PaginatedResult<Product>> GetProductsByCategoryAsync(string category, int page = 1, int size = 10, string? order = null, CancellationToken cancellationToken = default)
         {
-            var query = _context.Products
-                                .Where(p => p.Category.ToString() == category)
-                                .AsQueryable();
-
-            // Aplicar ordenação dinâmica
+            var query = _context.Products.AsQueryable()
+                                .Where(p => p.Category.Name == category);
+                                
             if (!string.IsNullOrWhiteSpace(order))
             {
                 query = ApplySorting(query, order);
@@ -113,9 +106,6 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
             return new PaginatedResult<Product>(items, totalItems, page, size);
         }
 
-        /// <summary>
-        /// Aplica ordenação dinâmica a uma query usando uma string de ordenação no formato "campo1 asc, campo2 desc"
-        /// </summary>
         private static IQueryable<Product> ApplySorting(IQueryable<Product> query, string order)
         {
             var orders = order.Split(',');

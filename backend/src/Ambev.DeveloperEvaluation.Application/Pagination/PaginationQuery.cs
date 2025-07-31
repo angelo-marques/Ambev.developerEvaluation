@@ -1,4 +1,3 @@
-using Ambev.DeveloperEvaluation.Application.Pagination;
 using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Pagination
@@ -20,19 +19,20 @@ namespace Ambev.DeveloperEvaluation.Application.Pagination
             Filter = filter;
         }
     }
-}
-public class PaginationQuery<TResponse> : IRequest<PaginatedResponse<TResponse>>
-{
-    public int PageNumber { get; }
-    public int PageSize { get; }
-    public string? Order { get; }
 
-    public PaginationQuery() { }
-
-    public PaginationQuery(int pageNumber, int pageSize, string? order)
+    public class PaginationQuery<TResponse> : IRequest<PaginatedResponse<TResponse>>
     {
-        PageNumber = pageNumber;
-        PageSize = pageSize;
-        Order = order;
+        public int PageNumber { get; }
+        public int PageSize { get; }
+        public string? Order { get; }
+
+        public PaginationQuery() { }
+
+        public PaginationQuery(int pageNumber, int pageSize, string? order)
+        {
+            PageNumber = pageNumber;
+            PageSize = pageSize;
+            Order = order;
+        }
     }
 }

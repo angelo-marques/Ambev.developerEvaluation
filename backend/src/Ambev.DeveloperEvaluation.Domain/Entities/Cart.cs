@@ -2,7 +2,6 @@
 
 namespace Ambev.DeveloperEvaluation.Domain.Entities
 {
-
     public class Cart : BaseEntity
     {
         public Guid UserId { get; private set; }
@@ -45,5 +44,4 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
             PriceTotal = Products.Sum(p => p.PriceTotalWithDiscount);
         }
     }
-
 }

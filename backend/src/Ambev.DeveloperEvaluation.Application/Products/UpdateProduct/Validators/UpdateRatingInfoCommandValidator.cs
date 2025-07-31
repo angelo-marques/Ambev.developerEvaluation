@@ -3,15 +3,8 @@ using FluentValidation;
 
 namespace Ambev.DeveloperEvaluation.Application.Products.UpdateProduct.Validators
 {
-
-    /// <summary>
-    /// Validator for the UpdateRatingInfoCommand
-    /// </summary>
     public class UpdateRatingInfoCommandValidator : AbstractValidator<UpdateRatingInfoCommand>
     {
-        /// <summary>
-        /// Initializes validation rules for UpdateRatingInfoCommand
-        /// </summary>
         public UpdateRatingInfoCommandValidator()
         {
             RuleFor(x => x.ExternalId)

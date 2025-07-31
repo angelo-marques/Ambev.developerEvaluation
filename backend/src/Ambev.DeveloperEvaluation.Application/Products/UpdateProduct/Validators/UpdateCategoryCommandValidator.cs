@@ -1,11 +1,11 @@
-﻿using Ambev.DeveloperEvaluation.Application.Products.CreateProduct.Commands;
+using Ambev.DeveloperEvaluation.Application.Products.UpdateProduct.Commands;
 using FluentValidation;
 
-namespace Ambev.DeveloperEvaluation.Application.Products.CreateProduct.Validators
+namespace Ambev.DeveloperEvaluation.Application.Products.UpdateProduct.Validators
 {
-    public class CreateCategoryInfoCommandValidator : AbstractValidator<CreateCategoryInfoCommand>
+    public class UpdateCategoryCommandValidator : AbstractValidator<UpdateCategoryCommand>
     {
-        public CreateCategoryInfoCommandValidator()
+        public UpdateCategoryCommandValidator()
         {
             RuleFor(x => x.ExternalId)
                 .NotEmpty().WithMessage("ExternalId is required.")

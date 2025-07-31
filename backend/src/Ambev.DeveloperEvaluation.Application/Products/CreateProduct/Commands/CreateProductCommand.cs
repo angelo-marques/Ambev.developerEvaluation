@@ -11,9 +11,9 @@ namespace Ambev.DeveloperEvaluation.Application.Products.CreateProduct.Commands
         public decimal Price { get; private set; }
         public string Description { get; private set; } = string.Empty;
         public string Image { get; private set; } = string.Empty;
-        public CreateCategoryInfoCommand Category { get; private set; } = default!;
+        public CreateCategoryCommand Category { get; private set; } = default!;
         public CreateRatingCommand Rating { get; private set; } = default!;
-        public CreateProductCommand(string title, decimal price, string description, string image, CreateCategoryInfoCommand category, CreateRatingCommand rating)
+        public CreateProductCommand(string title, decimal price, string description, string image, CreateCategoryCommand category, CreateRatingCommand rating)
         {
             Title = title;
             Price = price;

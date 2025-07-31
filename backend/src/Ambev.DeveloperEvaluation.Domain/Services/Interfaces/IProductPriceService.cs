@@ -1,6 +1,7 @@
-namespace Ambev.DeveloperEvaluation.Domain.Services.Interfaces;
-
-public interface IProductPriceService
+namespace Ambev.DeveloperEvaluation.Domain.Services.Interfaces
 {
-    Task<decimal> GetPriceAsync(Guid productId);
+    public interface IProductPriceService
+    {
+        Task<decimal> GetPriceAsync(Guid productId);
+    }
 }

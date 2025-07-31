@@ -1,6 +1,5 @@
 namespace Ambev.DeveloperEvaluation.Application.Carts.GetCart.Responses
 {
-
     public class GetCartResponse
     {
         public Guid Id { get; set; }

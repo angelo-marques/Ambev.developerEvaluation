@@ -5,10 +5,7 @@ using AutoMapper;
 namespace Ambev.DeveloperEvaluation.Application.Products.GetProduct
 {
     public class ListProductsProfile : Profile
-    {
-        /// <summary>
-        /// Initializes the mappings for GetProduct operation
-        /// </summary>
+    {      
         public ListProductsProfile()
         {
             // Mapeamento de Product para ListProductResponse
@@ -17,13 +14,13 @@ namespace Ambev.DeveloperEvaluation.Application.Products.GetProduct
                 .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
                 .ForMember(dest => dest.Image, opt => opt.MapFrom(src => src.Image))
-                //.ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category))
+                .ForMember(dest => dest.Category, opt => opt.MapFrom(src => src.Category))
                 .ForMember(dest => dest.Rating, opt => opt.MapFrom(src => src.Rating));
 
-            //// Mapeamento entre CategoryInfo e ListProductCategoryInfoResponse
-            //CreateMap<CategoryInfo, ListProductCategoryInfoResponse>()
-            //    .ForMember(dest => dest.ExternalId, opt => opt.MapFrom(src => src.ExternalId))
-            //    .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
+            // Mapeamento entre CategoryInfo e ListProductCategoryInfoResponse
+            CreateMap<Category, ListProductCategoryResponse>()
+                .ForMember(dest => dest.ExternalId, opt => opt.MapFrom(src => src.ExternalId))
+                .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
 
             // Mapeamento entre RatingInfo e ListProductRatingInfoResponse
             CreateMap<Rating, ListProductRatingInfoResponse>()

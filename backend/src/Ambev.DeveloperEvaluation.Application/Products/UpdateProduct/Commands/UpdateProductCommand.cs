@@ -17,11 +17,11 @@ namespace Ambev.DeveloperEvaluation.Application.Products.UpdateProduct.Commands
 
         public string Image { get; private set; } = string.Empty;
 
-        public UpdateCategoryInfoCommand Category { get; private set; } = default!;
+        public UpdateCategoryCommand Category { get; private set; } = default!;
         
         public UpdateRatingInfoCommand Rating { get; private set; } = default!;
 
-        public UpdateProductCommand(string title, decimal price, string description, string image, UpdateCategoryInfoCommand category, UpdateRatingInfoCommand rating)
+        public UpdateProductCommand(string title, decimal price, string description, string image, UpdateCategoryCommand category, UpdateRatingInfoCommand rating)
         {
             Title = title;
             Price = price;

@@ -13,12 +13,6 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.UpdateCart
         private readonly IProductPriceService _productPriceService;
         private readonly IMapper _mapper;
 
-        /// <summary>
-        /// Initializes a new instance of UpdateUserHandler
-        /// </summary>
-        /// <param name="userRepository">The user repository</param>
-        /// <param name="mapper">The AutoMapper instance</param>
-        /// <param name="validator">The validator for UpdateUserCommand</param>
         public UpdateCartHandler(ICartRepository cartRepository, IProductPriceService productPriceService, IMapper mapper)
         {
             _cartRepository = cartRepository;
@@ -26,12 +20,6 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.UpdateCart
             _mapper = mapper;
         }
 
-        /// <summary>
-        /// Handles the UpdateUserCommand request
-        /// </summary>
-        /// <param name="command">The UpdateUser command</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>The updated user details</returns>
         public async Task<UpdateCartResponse> Handle(UpdateCartCommand command, CancellationToken cancellationToken)
         {
             var cart = await _cartRepository.GetByIdAsync(command.Id, cancellationToken)
