@@ -23,7 +23,7 @@ namespace Ambev.DeveloperEvaluation.Application.Products.GetProduct
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
 
             // Mapeamento entre RatingInfo e ListProductRatingInfoResponse
-            CreateMap<Rating, ListProductRatingInfoResponse>()
+            CreateMap<Rating, ListProductRatingResponse>()
                 .ForMember(dest => dest.ExternalId, opt => opt.MapFrom(src => src.ExternalId))
                 .ForMember(dest => dest.AverageRate, opt => opt.MapFrom(src => src.AverageRate))
                 .ForMember(dest => dest.TotalReviews, opt => opt.MapFrom(src => src.TotalReviews));
