@@ -9,5 +9,5 @@ public class ListProductResponse
     public string Description { get; set; } = string.Empty;
     public string Image { get; set; } = string.Empty;
     public ListProductCategoryResponse Category { get; set; } = default!;
-    public ListProductRatingInfoResponse Rating { get; set; } = default!;
+    public ListProductRatingResponse Rating { get; set; } = default!;
 }
