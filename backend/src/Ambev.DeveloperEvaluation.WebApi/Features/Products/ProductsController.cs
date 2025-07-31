@@ -13,6 +13,9 @@ using Ambev.DeveloperEvaluation.Application.Products.ListProducts.Results;
 using Ambev.DeveloperEvaluation.Application.Products.UpdateProduct.Commands;
 using Ambev.DeveloperEvaluation.Application.Products.UpdateProduct.Results;
 using Ambev.DeveloperEvaluation.WebApi.Common;
+using Ambev.DeveloperEvaluation.WebApi.Features.Products.CreatProduct;
+using Ambev.DeveloperEvaluation.WebApi.Features.Products.DeleteProduct;
+using Ambev.DeveloperEvaluation.WebApi.Features.Products.GetProduct;
 using AutoMapper;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
@@ -35,15 +38,26 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Products
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<IActionResult> CreateProductAsync([FromBody] CreateProductCommand request, CancellationToken cancellationToken)
+        public async Task<IActionResult> CreateProductAsync([FromBody] CreateProductRequest request, CancellationToken cancellationToken)
         {
+            var validator = new CreateProductRequestValidator();
+            var validationResult = await validator.ValidateAsync(request, cancellationToken);
+
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors);
+
             var command = _mapper.Map<CreateProductCommand>(request);
             var response = await _mediator.Send(command, cancellationToken);
 
-            return Created(nameof(GetProductByIdAsync), _mapper.Map<CreateProductResult>(response));
+            return Created(string.Empty, new ApiResponseWithData<CreateProductResponse>
+            {
+                Success = true,
+                Message = "Product created successfully",
+                Data = _mapper.Map<CreateProductResponse>(response)
+            });
         }
 
-        [HttpGet("{id}", Name = nameof(GetProductByIdAsync))]
+        [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -55,6 +69,13 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Products
                 return BadRequest(new { Message = "Invalid product ID." });
             }
 
+            var request = new GetProductRequest { Id = id };
+            var validator = new GetProductRequestValidator();
+            var validationResult = await validator.ValidateAsync(request, cancellationToken);
+
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors);
+
             var command = _mapper.Map<GetProductCommand>(id);
             var response = await _mediator.Send(command, cancellationToken);
 
@@ -63,11 +84,11 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Products
                 return NotFound(new { Message = "Product not found." });
             }
 
-            return Ok(new ApiResponseWithData<GetProductResult>
+            return Ok(new ApiResponseWithData<GetProductResponse>
             {
                 Success = true,
-                Message = "Product successfully",
-                Data = _mapper.Map<GetProductResult>(response)
+                Message = "Product retrieved successfully",
+                Data = _mapper.Map<GetProductResponse>(response)
             });
         }
 
@@ -82,18 +103,18 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Products
         {
             var query = new PaginationQuery<ListProductsQuery, ListProductResult>(pageNumber, pageSize, order, filter);
 
-            Application.Pagination.PaginatedResult<ListProductResult> result = await _mediator.Send(query);
+            PaginatedResult<ListProductResult> result = await _mediator.Send(query);
 
             if (result == null)
             {
                 return NotFound(new { Message = "Product not found." });
             }
 
-            return Ok(new ApiResponseWithData<ListProductResult>
+            return Ok(new ApiResponseWithData<GetListProductResponse>
             {
                 Success = true,
                 Message = "Product list successfully",
-                Data = _mapper.Map<ListProductResult>(result)
+                Data = _mapper.Map<GetListProductResponse>(result)
             });
         }
    
@@ -103,7 +124,13 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Products
         public async Task<IActionResult> GetCategories()
         {
             var categories = await _mediator.Send(new GetProductCategoriesQuery());
-            return Ok(categories);
+            return Ok(new ApiResponseWithData<List<string>>
+            {
+                Success = true,
+                Message = "Categories retrieved successfully",
+                Data = _mapper.Map<List<string>>(categories)
+            });
+          
         }
    
         [HttpGet("category/{category}")]
@@ -118,7 +145,13 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Products
         {
             var query = new GetProductsByCategoryQuery(category, page, size, order);
             var result = await _mediator.Send(query);
-            return Ok(result);
+
+            return Ok(new ApiResponseWithData<GetListProductResponse>
+            {
+                Success = true,
+                Message = "Products retrieved successfully",
+                Data = _mapper.Map<GetListProductResponse>(result)
+            });         
         }
 
         [HttpPut("{id}")]
@@ -151,7 +184,15 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Products
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> DeleteProductAsync([FromRoute] Guid id, CancellationToken cancellationToken)
         {
-            var command = _mapper.Map<DeleteProductCommand>(id);
+
+            var request = new DeleteProductRequest { Id = id };
+            var validator = new DeleteProductRequestValidator();
+            var validationResult = await validator.ValidateAsync(request, cancellationToken);
+
+            if (!validationResult.IsValid)
+                return BadRequest(validationResult.Errors);
+
+            var command = _mapper.Map<DeleteProductCommand>(request.Id);
             var result = await _mediator.Send(command, cancellationToken);
 
             if (result == null)
@@ -159,11 +200,11 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Products
                 return NotFound(new { Message = "Product not found." });
             }
 
-            return Ok(new ApiResponseWithData<DeleteProductResult>
+            return Ok(new ApiResponseWithData<GetProductResponse>
             {
                 Success = true,
                 Message = "Product delete successfully",
-                Data = _mapper.Map<DeleteProductResult>(result)
+                Data = _mapper.Map<GetProductResponse>(result)
             });
         
         }

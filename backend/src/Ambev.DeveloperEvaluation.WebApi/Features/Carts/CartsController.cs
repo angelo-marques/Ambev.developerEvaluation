@@ -105,7 +105,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts
         {
             var query = new PaginationQuery<ListCartResult>(pageNumber, pageSize, order);
 
-            Application.Pagination.PaginatedResult<ListCartResult> result = await _mediator.Send(query);
+            PaginatedResult<ListCartResult> result = await _mediator.Send(query);
 
             return Ok(new ApiResponseWithData<ListCartResult>
             {
