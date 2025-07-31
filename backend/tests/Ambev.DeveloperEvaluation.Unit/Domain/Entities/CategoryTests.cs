@@ -9,7 +9,7 @@ namespace Ambev.DeveloperEvaluation.Unit.Domain.Entities
     public class CategoryTests
     {
         [Fact]
-        public void CategoryInfo_Should_Create_With_Valid_Parameters()
+        public void Category_Should_Create_With_Valid_Parameters()
         {
             var category = new Faker<Category>()
                 .CustomInstantiator(f => new Category(f.Random.Guid().ToString(), f.Commerce.Categories(1)[0]))
@@ -20,7 +20,7 @@ namespace Ambev.DeveloperEvaluation.Unit.Domain.Entities
         }
 
         [Fact]
-        public void CategoryInfo_Should_Throw_Exception_With_Empty_ExternalId()
+        public void Category_Should_Throw_Exception_With_Empty_ExternalId()
         {
             Action act = static () => _ = new Category("", "Valid Name");
             act.Should().Throw<ArgumentException>()
@@ -28,7 +28,7 @@ namespace Ambev.DeveloperEvaluation.Unit.Domain.Entities
         }
 
         [Fact]
-        public void CategoryInfo_Should_Throw_Exception_With_Empty_Name()
+        public void Category_Should_Throw_Exception_With_Empty_Name()
         {
             Action act = () => _ = new Category("ValidExternalId", "");
             act.Should().Throw<ArgumentException>()
@@ -38,13 +38,13 @@ namespace Ambev.DeveloperEvaluation.Unit.Domain.Entities
         [Fact(DisplayName = "Should create an instance using the private constructor")]
         public void Given_PrivateConstructor_When_Invoked_Then_ShouldCreateInstance()
         {
-            var constructorInfo = typeof(Category).GetConstructor(
+            var constructor = typeof(Category).GetConstructor(
                 BindingFlags.NonPublic | BindingFlags.Instance,
                 null, Type.EmptyTypes, null);
 
-            constructorInfo.Should().NotBeNull("The private constructor should exist.");
+            constructor.Should().NotBeNull("The private constructor should exist.");
 
-            var categoryInfo = (Category)constructorInfo!.Invoke(null);
+            var categoryInfo = (Category)constructor!.Invoke(null);
 
             categoryInfo.Should().NotBeNull();
             categoryInfo.ExternalId.Should().BeEmpty();
