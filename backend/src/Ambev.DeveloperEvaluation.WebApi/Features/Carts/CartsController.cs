@@ -2,10 +2,10 @@
 using Ambev.DeveloperEvaluation.Application.Carts.DeleteCart.Commands;
 using Ambev.DeveloperEvaluation.Application.Carts.DeleteCart.Responses;
 using Ambev.DeveloperEvaluation.Application.Carts.GetCart.Commands;
-using Ambev.DeveloperEvaluation.Application.Carts.GetCart.Responses;
-using Ambev.DeveloperEvaluation.Application.Carts.ListCarts.Responses;
+using Ambev.DeveloperEvaluation.Application.Carts.GetCart.Results;
+using Ambev.DeveloperEvaluation.Application.Carts.ListCarts.Results;
 using Ambev.DeveloperEvaluation.Application.Carts.UpdateCart.Commands;
-using Ambev.DeveloperEvaluation.Application.Carts.UpdateCart.Responses;
+using Ambev.DeveloperEvaluation.Application.Carts.UpdateCart.Results;
 using Ambev.DeveloperEvaluation.Application.Pagination;
 using Ambev.DeveloperEvaluation.WebApi.Common;
 using AutoMapper;
@@ -27,12 +27,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts
             _mapper = mapper;
         }
 
-        /// <summary>
-        /// Creates a new cart
-        /// </summary>
-        /// <param name="request">The cart creation request</param>
-        /// <param name="cancellationToken">Cancellation token</param>
-        /// <returns>The created cart details</returns>
+     
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -45,12 +40,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts
             return Created(nameof(GetCartByIdAsync), response);
         }
 
-        /// <summary>
-        /// Retrieves a cart by their ID.
-        /// </summary>
-        /// <param name="id">The unique identifier of the cart.</param>
-        /// <param name="cancellationToken">Cancellation token.</param>
-        /// <returns>The cart details if found, otherwise an appropriate error response.</returns>
+  
         [HttpGet("{id}", Name = "GetCartByIdAsync")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -71,11 +61,11 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts
                 return NotFound(new { Message = "Cart not found." });
             }
 
-            return Ok(new ApiResponseWithData<GetCartResponse>
+            return Ok(new ApiResponseWithData<GetCartResult>
             {
                 Success = true,
                 Message = "Cart retrieved successfully",
-                Data = _mapper.Map<GetCartResponse>(response)
+                Data = _mapper.Map<GetCartResult>(response)
             });
             
         }
@@ -94,15 +84,15 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public async Task<IActionResult> GetCartPageAsync([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10, [FromQuery] string? order = null)
         {
-            var query = new PaginationQuery<ListCartResponse>(pageNumber, pageSize, order);
+            var query = new PaginationQuery<ListCartResult>(pageNumber, pageSize, order);
 
-            Application.Pagination.PaginatedResponse<ListCartResponse> result = await _mediator.Send(query);
+            Application.Pagination.PaginatedResult<ListCartResult> result = await _mediator.Send(query);
 
-            return Ok(new ApiResponseWithData<ListCartResponse>
+            return Ok(new ApiResponseWithData<ListCartResult>
             {
                 Success = true,
                 Message = "Cart retrieved successfully",
-                Data = _mapper.Map<ListCartResponse>(result)
+                Data = _mapper.Map<ListCartResult>(result)
             });
         }
 
@@ -125,11 +115,11 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Carts
             // Envia o comando direto ao Mediator, confiando que os middlewares e validators já garantem a integridade dos dados
             var response = await _mediator.Send(request, cancellationToken);
 
-            return Ok(new ApiResponseWithData<UpdateCartResponse>
+            return Ok(new ApiResponseWithData<UpdateCartResult>
             {
                 Success = true,
                 Message = "Cart update successfully",
-                Data = _mapper.Map<UpdateCartResponse>(response)
+                Data = _mapper.Map<UpdateCartResult>(response)
             });
         }
 

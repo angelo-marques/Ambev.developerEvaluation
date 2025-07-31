@@ -1,5 +1,5 @@
 using Ambev.DeveloperEvaluation.Application.Products.UpdateProduct.Commands;
-using Ambev.DeveloperEvaluation.Application.Products.UpdateProduct.Responses;
+using Ambev.DeveloperEvaluation.Application.Products.UpdateProduct.Results;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using AutoMapper;
 
@@ -12,7 +12,7 @@ namespace Ambev.DeveloperEvaluation.Application.Products.UpdateProduct
             CreateMap<UpdateProductCommand, Product>();
             CreateMap<UpdateRatingInfoCommand, Rating>();
             CreateMap<UpdateCategoryCommand, Category>();
-            CreateMap<Product, UpdateProductResponse>();
+            CreateMap<Product, UpdateProductResult>();
         }
     }
 }

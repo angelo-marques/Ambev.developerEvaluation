@@ -1,11 +1,11 @@
-using Ambev.DeveloperEvaluation.Application.Products.CreateProduct.Responses;
+using Ambev.DeveloperEvaluation.Application.Products.CreateProduct.Results;
 using Ambev.DeveloperEvaluation.Application.Products.CreateProduct.Validators;
 using Ambev.DeveloperEvaluation.Common.Validation;
 using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Products.CreateProduct.Commands
 {
-    public class CreateProductCommand : IRequest<CreateProductResponse>
+    public class CreateProductCommand : IRequest<CreateProductResult>
     {
         public string Title { get; private set; } = string.Empty;
         public decimal Price { get; private set; }

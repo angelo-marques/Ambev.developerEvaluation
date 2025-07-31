@@ -1,5 +1,5 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Products.CreateProduct.Commands;
-using Ambev.DeveloperEvaluation.Application.Products.CreateProduct.Responses;
+using Ambev.DeveloperEvaluation.Application.Products.CreateProduct.Results;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using AutoMapper;
 
@@ -11,7 +11,7 @@ namespace Ambev.DeveloperEvaluation.Application.Products.CreateProduct
         {
             CreateMap<CreateProductCommand, Product>();
             CreateMap<CreateRatingCommand, Rating>();
-            CreateMap<Product, CreateProductResponse>();
+            CreateMap<Product, CreateProductResult>();
         }
     }
 }

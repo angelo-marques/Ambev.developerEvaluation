@@ -1,9 +1,9 @@
-﻿using Ambev.DeveloperEvaluation.Application.Products.GetProduct.Responses;
+﻿using Ambev.DeveloperEvaluation.Application.Products.GetProduct.Results;
 using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Products.GetProduct.Commands
 {
-    public class GetProductCommand : IRequest<GetProductResponse>
+    public class GetProductCommand : IRequest<GetProductResult>
     {
         public Guid Id { get; set; }
 

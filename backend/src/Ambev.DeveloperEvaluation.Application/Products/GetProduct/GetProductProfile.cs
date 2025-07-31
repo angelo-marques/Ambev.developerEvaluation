@@ -1,5 +1,5 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Products.GetProduct.Commands;
-using Ambev.DeveloperEvaluation.Application.Products.GetProduct.Responses;
+using Ambev.DeveloperEvaluation.Application.Products.GetProduct.Results;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using AutoMapper;
 
@@ -13,10 +13,10 @@ namespace Ambev.DeveloperEvaluation.Application.Products.GetProduct
             CreateMap<Guid, GetProductCommand>()
                 .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src));
 
-            CreateMap<Product, GetProductResponse>();
+            CreateMap<Product, GetProductResult>();
 
-            CreateMap<Category, GetCategoryResponse>();
-            CreateMap<Rating, GetRatingInfoResponse>();
+            CreateMap<Category, GetCategoryResult>();
+            CreateMap<Rating, GetRatingResult>();
         }
     }
 }

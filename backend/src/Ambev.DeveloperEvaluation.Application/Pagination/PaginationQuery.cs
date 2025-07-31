@@ -2,7 +2,7 @@ using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Pagination
 {
-    public class PaginationQuery<TFilter, TResponse> : IRequest<PaginatedResponse<TResponse>>
+    public class PaginationQuery<TFilter, TResponse> : IRequest<PaginatedResult<TResponse>>
     {
         public int PageNumber { get; }
         public int PageSize { get; }
@@ -20,7 +20,7 @@ namespace Ambev.DeveloperEvaluation.Application.Pagination
         }
     }
 
-    public class PaginationQuery<TResponse> : IRequest<PaginatedResponse<TResponse>>
+    public class PaginationQuery<TResponse> : IRequest<PaginatedResult<TResponse>>
     {
         public int PageNumber { get; }
         public int PageSize { get; }

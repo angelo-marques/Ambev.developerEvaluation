@@ -1,11 +1,11 @@
-using Ambev.DeveloperEvaluation.Application.Products.UpdateProduct.Responses;
+using Ambev.DeveloperEvaluation.Application.Products.UpdateProduct.Results;
 using Ambev.DeveloperEvaluation.Application.Products.UpdateProduct.Validators;
 using Ambev.DeveloperEvaluation.Common.Validation;
 using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Products.UpdateProduct.Commands
 {
-    public class UpdateProductCommand : IRequest<UpdateProductResponse>
+    public class UpdateProductCommand : IRequest<UpdateProductResult>
     {
         public Guid Id { get; set; }
 

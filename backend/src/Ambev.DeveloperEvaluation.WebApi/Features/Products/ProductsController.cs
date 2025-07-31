@@ -1,17 +1,17 @@
-﻿using Ambev.DeveloperEvaluation.Application.Carts.GetCart.Responses;
+﻿using Ambev.DeveloperEvaluation.Application.Carts.GetCart.Results;
 using Ambev.DeveloperEvaluation.Application.Pagination;
 using Ambev.DeveloperEvaluation.Application.Products.CreateProduct.Commands;
-using Ambev.DeveloperEvaluation.Application.Products.CreateProduct.Responses;
+using Ambev.DeveloperEvaluation.Application.Products.CreateProduct.Results;
 using Ambev.DeveloperEvaluation.Application.Products.DeleteProduct.Commands;
-using Ambev.DeveloperEvaluation.Application.Products.DeleteProduct.Responses;
+using Ambev.DeveloperEvaluation.Application.Products.DeleteProduct.Results;
 using Ambev.DeveloperEvaluation.Application.Products.GetProduct.Commands;
-using Ambev.DeveloperEvaluation.Application.Products.GetProduct.Responses;
+using Ambev.DeveloperEvaluation.Application.Products.GetProduct.Results;
 using Ambev.DeveloperEvaluation.Application.Products.GetProductCategories;
 using Ambev.DeveloperEvaluation.Application.Products.GetProductsByCategory;
 using Ambev.DeveloperEvaluation.Application.Products.ListProducts;
-using Ambev.DeveloperEvaluation.Application.Products.ListProducts.Responses;
+using Ambev.DeveloperEvaluation.Application.Products.ListProducts.Results;
 using Ambev.DeveloperEvaluation.Application.Products.UpdateProduct.Commands;
-using Ambev.DeveloperEvaluation.Application.Products.UpdateProduct.Responses;
+using Ambev.DeveloperEvaluation.Application.Products.UpdateProduct.Results;
 using Ambev.DeveloperEvaluation.WebApi.Common;
 using AutoMapper;
 using MediatR;
@@ -40,7 +40,7 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Products
             var command = _mapper.Map<CreateProductCommand>(request);
             var response = await _mediator.Send(command, cancellationToken);
 
-            return Created(nameof(GetProductByIdAsync), _mapper.Map<CreateProductResponse>(response));
+            return Created(nameof(GetProductByIdAsync), _mapper.Map<CreateProductResult>(response));
         }
 
         [HttpGet("{id}", Name = nameof(GetProductByIdAsync))]
@@ -63,11 +63,11 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Products
                 return NotFound(new { Message = "Product not found." });
             }
 
-            return Ok(new ApiResponseWithData<GetProductResponse>
+            return Ok(new ApiResponseWithData<GetProductResult>
             {
                 Success = true,
                 Message = "Product successfully",
-                Data = _mapper.Map<GetProductResponse>(response)
+                Data = _mapper.Map<GetProductResult>(response)
             });
         }
 
@@ -80,20 +80,20 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Products
                                                               [FromQuery] string? order = null,
                                                               [FromQuery] ListProductsQuery? filter = null)
         {
-            var query = new PaginationQuery<ListProductsQuery, ListProductResponse>(pageNumber, pageSize, order, filter);
+            var query = new PaginationQuery<ListProductsQuery, ListProductResult>(pageNumber, pageSize, order, filter);
 
-            Application.Pagination.PaginatedResponse<ListProductResponse> result = await _mediator.Send(query);
+            Application.Pagination.PaginatedResult<ListProductResult> result = await _mediator.Send(query);
 
             if (result == null)
             {
                 return NotFound(new { Message = "Product not found." });
             }
 
-            return Ok(new ApiResponseWithData<ListProductResponse>
+            return Ok(new ApiResponseWithData<ListProductResult>
             {
                 Success = true,
                 Message = "Product list successfully",
-                Data = _mapper.Map<ListProductResponse>(result)
+                Data = _mapper.Map<ListProductResult>(result)
             });
         }
    
@@ -136,11 +136,11 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Products
                 return NotFound(new { Message = "Product not found." });
             }
 
-            return Ok(new ApiResponseWithData<UpdateProductResponse>
+            return Ok(new ApiResponseWithData<UpdateProductResult>
             {
                 Success = true,
                 Message = "Product upadate successfully",
-                Data = _mapper.Map<UpdateProductResponse>(response)
+                Data = _mapper.Map<UpdateProductResult>(response)
             });
         }
 
@@ -159,11 +159,11 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Products
                 return NotFound(new { Message = "Product not found." });
             }
 
-            return Ok(new ApiResponseWithData<DeleteProductResponse>
+            return Ok(new ApiResponseWithData<DeleteProductResult>
             {
                 Success = true,
                 Message = "Product delete successfully",
-                Data = _mapper.Map<DeleteProductResponse>(result)
+                Data = _mapper.Map<DeleteProductResult>(result)
             });
         
         }

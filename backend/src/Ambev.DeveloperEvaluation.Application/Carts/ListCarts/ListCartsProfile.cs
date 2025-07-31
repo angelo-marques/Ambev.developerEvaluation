@@ -8,10 +8,10 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.ListCarts
     {  
         public ListCartsProfile()
         {
-            CreateMap<Cart, ListCartResponse>()
+            CreateMap<Cart, ListCartResult>()
                  .ForMember(dest => dest.Products, opt => opt.MapFrom(src => src.Products));
 
-            CreateMap<CartItems, ListCartItemResponse>();
+            CreateMap<CartItems, ListCartItemResult>();
         }
     }
 }

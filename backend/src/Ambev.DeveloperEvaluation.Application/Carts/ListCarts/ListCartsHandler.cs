@@ -1,4 +1,4 @@
-using Ambev.DeveloperEvaluation.Application.Carts.ListCarts.Responses;
+using Ambev.DeveloperEvaluation.Application.Carts.ListCarts.Results;
 using Ambev.DeveloperEvaluation.Application.Pagination;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using AutoMapper;
@@ -6,7 +6,7 @@ using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Carts.ListCarts
 {
-    public class ListCartsHandler : IRequestHandler<PaginationQuery<ListCartResponse>, PaginatedResponse<ListCartResponse>>
+    public class ListCartsHandler : IRequestHandler<PaginationQuery<ListCartResult>, PaginatedResult<ListCartResult>>
     {
         private readonly ICartRepository _repository;
         private readonly IMapper _mapper;
@@ -17,7 +17,7 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.ListCarts
             _mapper = mapper;
         }
 
-        public async Task<PaginatedResponse<ListCartResponse>> Handle(PaginationQuery<ListCartResponse> request, CancellationToken cancellationToken)
+        public async Task<PaginatedResult<ListCartResult>> Handle(PaginationQuery<ListCartResult> request, CancellationToken cancellationToken)
         {
             var paginatedResult = await _repository.GetPaginatedAsync(
                 request.PageNumber,
@@ -26,9 +26,9 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.ListCarts
                 cancellationToken: cancellationToken
             );
 
-            var mappedCarts = _mapper.Map<ICollection<ListCartResponse>>(paginatedResult.Items);
+            var mappedCarts = _mapper.Map<ICollection<ListCartResult>>(paginatedResult.Items);
 
-            return new PaginatedResponse<ListCartResponse>
+            return new PaginatedResult<ListCartResult>
             {
                 Data = mappedCarts,
                 CurrentPage = paginatedResult.CurrentPage,
