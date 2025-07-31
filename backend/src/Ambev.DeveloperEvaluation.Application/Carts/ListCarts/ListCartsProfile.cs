@@ -1,4 +1,4 @@
-using Ambev.DeveloperEvaluation.Application.Carts.ListCarts.Responses;
+using Ambev.DeveloperEvaluation.Application.Carts.ListCarts.Results;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using AutoMapper;
 
