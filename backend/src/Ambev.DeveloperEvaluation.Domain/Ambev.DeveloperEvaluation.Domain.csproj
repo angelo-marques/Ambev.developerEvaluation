@@ -4,11 +4,13 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
+  <ItemGroup>
+    <Compile Remove="Repositories\ICartItemsRepository.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Enums\" />
     <Folder Include="Exceptions\" />
-    <Folder Include="Repositories\" />
     <Folder Include="Events\" />
     <Folder Include="ValueObjects\" />
   </ItemGroup>

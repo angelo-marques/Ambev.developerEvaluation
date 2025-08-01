@@ -8,7 +8,13 @@
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerfileContext>..\..</DockerfileContext>
     <DockerComposeProjectPath>..\..\docker-compose.dcproj</DockerComposeProjectPath>
+    <Version>$(VersionPrefix)1.0.1</Version>
+    <FileVersion></FileVersion>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Features\Carts\UpdateCart\UpdateCartItemRequestValidator.cs" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="MediatR" Version="12.4.1" />
