@@ -8,24 +8,24 @@ namespace Ambev.DeveloperEvaluation.ORM.Mapping
     {
         public void Configure(EntityTypeBuilder<Cart> builder)
         {
-            builder.ToTable("carts");
+            builder.ToTable("Carts");
             builder.HasKey(c => c.Id);
-            builder.Property(c => c.UserId).HasColumnName("user_id");
-            builder.Property(c => c.Id).HasColumnName("id").HasColumnType("uuid").HasDefaultValueSql("gen_random_uuid()");
+            builder.Property(c => c.UserId).HasColumnName("UserId").IsRequired();
+            builder.Property(c => c.Id).HasColumnType("uuid").HasDefaultValueSql("gen_random_uuid()");
             builder.HasOne(c => c.User).WithMany().HasForeignKey(c => c.UserId);
-           // builder.Property(c => c.Products).HasColumnName("products");
-            builder.Property(c => c.Date).HasColumnName("date");
-            builder.Property(c => c.PriceTotal).HasColumnName("price_total");
-
+     
+            builder.Property(c => c.Date).HasColumnName("Date");
+            builder.Property(c => c.PriceTotal).HasColumnName("PriceTotal");
+            builder.HasIndex(c => c.UserId);
             builder.OwnsMany(c => c.Products, cartItems =>
             {
                 cartItems.Property(ci => ci.ProductId)
-                        .HasColumnName("product_id")
+                        .HasColumnName("ProductId")
                         .HasColumnType("uuid")
                         .IsRequired();
 
                 cartItems.Property(ci => ci.Quantity)
-                        .HasColumnName("quantity")
+                        .HasColumnName("Quantity")
                         .HasColumnType("int")
                         .IsRequired();
             });

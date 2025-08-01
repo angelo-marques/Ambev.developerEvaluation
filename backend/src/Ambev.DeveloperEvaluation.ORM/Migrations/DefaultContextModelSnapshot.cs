@@ -28,26 +28,25 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
-                        .HasColumnName("id")
                         .HasDefaultValueSql("gen_random_uuid()");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("timestamp with time zone")
-                        .HasColumnName("date");
+                        .HasColumnName("Date");
 
                     b.Property<decimal>("PriceTotal")
                         .HasColumnType("numeric")
-                        .HasColumnName("price_total");
+                        .HasColumnName("PriceTotal");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid")
-                        .HasColumnName("user_id");
+                        .HasColumnName("UserId");
 
                     b.HasKey("Id");
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("carts", (string)null);
+                    b.ToTable("Carts", (string)null);
                 });
 
             modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.Product", b =>
@@ -59,28 +58,24 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("description");
+                        .HasColumnType("text");
 
                     b.Property<string>("Image")
                         .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("image");
+                        .HasColumnType("text");
 
                     b.Property<decimal>("Price")
-                        .HasColumnType("numeric(10,2)")
-                        .HasColumnName("price");
+                        .HasColumnType("numeric(10,2)");
 
                     b.Property<string>("Title")
                         .IsRequired()
-                        .HasColumnType("varchar(100)")
-                        .HasColumnName("title");
+                        .HasColumnType("varchar(100)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Title");
 
-                    b.ToTable("products", (string)null);
+                    b.ToTable("Products", (string)null);
                 });
 
             modelBuilder.Entity("Ambev.DeveloperEvaluation.Domain.Entities.User", b =>
@@ -95,38 +90,40 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("varchar(255)");
 
                     b.Property<string>("Password")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("Phone")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
+                        .HasColumnType("varchar(20)");
 
                     b.Property<string>("Role")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
+                        .HasColumnType("varchar(15)");
 
                     b.Property<string>("Status")
                         .IsRequired()
-                        .HasMaxLength(20)
-                        .HasColumnType("character varying(20)");
+                        .HasColumnType("varchar(15)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("Username")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("varchar(50)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Email")
+                        .IsUnique();
+
+                    b.HasIndex("Phone");
+
+                    b.HasIndex("Username")
+                        .IsUnique();
 
                     b.ToTable("Users", (string)null);
                 });
@@ -159,11 +156,11 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
 
                             b1.Property<Guid>("ProductId")
                                 .HasColumnType("uuid")
-                                .HasColumnName("product_id");
+                                .HasColumnName("ProductId");
 
                             b1.Property<int>("Quantity")
                                 .HasColumnType("int")
-                                .HasColumnName("quantity");
+                                .HasColumnName("Quantity");
 
                             b1.Property<decimal>("UnitPrice")
                                 .HasColumnType("numeric");
@@ -192,16 +189,16 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
                             b1.Property<string>("ExternalId")
                                 .IsRequired()
                                 .HasColumnType("varchar(50)")
-                                .HasColumnName("category_external_id");
+                                .HasColumnName("Category_ExternalId");
 
                             b1.Property<string>("Name")
                                 .IsRequired()
                                 .HasColumnType("varchar(100)")
-                                .HasColumnName("category_name");
+                                .HasColumnName("Category_Name");
 
                             b1.HasKey("ProductId");
 
-                            b1.ToTable("products");
+                            b1.ToTable("Products");
 
                             b1.WithOwner()
                                 .HasForeignKey("ProductId");
@@ -215,20 +212,20 @@ namespace Ambev.DeveloperEvaluation.ORM.Migrations
 
                             b1.Property<double>("AverageRate")
                                 .HasColumnType("numeric(3,1)")
-                                .HasColumnName("rating_average_rate");
+                                .HasColumnName("Rating_AverageRate");
 
                             b1.Property<string>("ExternalId")
                                 .IsRequired()
                                 .HasColumnType("varchar(50)")
-                                .HasColumnName("rating_external_id");
+                                .HasColumnName("Rating_ExternalId");
 
                             b1.Property<int>("TotalReviews")
                                 .HasColumnType("int")
-                                .HasColumnName("rating_total_reviews");
+                                .HasColumnName("Rating_TotalReviews");
 
                             b1.HasKey("ProductId");
 
-                            b1.ToTable("products");
+                            b1.ToTable("Products");
 
                             b1.WithOwner()
                                 .HasForeignKey("ProductId");
