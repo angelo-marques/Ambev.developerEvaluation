@@ -7,7 +7,7 @@ using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Products.CreateProduct
 {
-    class CreateProductHandler : IRequestHandler<CreateProductCommand, CreateProductResult>
+   public class CreateProductHandler : IRequestHandler<CreateProductCommand, CreateProductResult>
     {
         private readonly IProductRepository _productRepository;
         private readonly IMapper _mapper;
