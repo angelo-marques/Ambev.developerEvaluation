@@ -87,6 +87,8 @@ O backend segue a filosofia de Clean Architecture, que separa responsabilidades 
   - **Docker Compose:** orquestra a aplicação e os serviços de infraestrutura (PostgreSQL, MongoDB, Redis), facilitando a criação de ambientes consistentes.
 
 ### Executando os testes
+<img width="1081" height="250" alt="image" src="https://github.com/user-attachments/assets/e04aa750-d14c-48cf-a419-750d01a7ad75" />
+
 O projeto inclui testes unitários, de integração e funcionais na pasta backend/tests. Para executá‑los todos de uma vez:
 
 ````
