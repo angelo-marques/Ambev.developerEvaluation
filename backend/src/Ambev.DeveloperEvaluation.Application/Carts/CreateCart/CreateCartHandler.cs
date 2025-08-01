@@ -1,5 +1,5 @@
 using Ambev.DeveloperEvaluation.Application.Carts.CreateCart.Commands;
-using Ambev.DeveloperEvaluation.Application.Carts.CreateCart.Responses;
+using Ambev.DeveloperEvaluation.Application.Carts.CreateCart.Results;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Ambev.DeveloperEvaluation.Domain.Services.Interfaces;
@@ -8,7 +8,7 @@ using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCart
 {
-    public class CreateCartHandler : IRequestHandler<CreateCartCommand, CreateCartResponse>
+    public class CreateCartHandler : IRequestHandler<CreateCartCommand, CreateCartResult>
     {
         private readonly ICartRepository _cartRepository;
         private readonly IProductPriceService _productPriceService;
@@ -20,7 +20,7 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCart
             _productPriceService = productPriceService;
         }
   
-        public async Task<CreateCartResponse> Handle(CreateCartCommand command, CancellationToken cancellationToken)
+        public async Task<CreateCartResult> Handle(CreateCartCommand command, CancellationToken cancellationToken)
         {
             var cart = new Cart(command.UserId);
 
@@ -33,7 +33,7 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCart
 
             var createdCart = await _cartRepository.CreateAsync(cart, cancellationToken);
 
-            var response = _mapper.Map<CreateCartResponse>(createdCart);
+            var response = _mapper.Map<CreateCartResult>(createdCart);
 
             return response;
         }

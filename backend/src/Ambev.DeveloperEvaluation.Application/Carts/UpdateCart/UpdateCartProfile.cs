@@ -1,4 +1,4 @@
-using Ambev.DeveloperEvaluation.Application.Carts.UpdateCart.Responses;
+using Ambev.DeveloperEvaluation.Application.Carts.UpdateCart.Results;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using AutoMapper;
 
@@ -8,7 +8,7 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.UpdateCart
     {
         public UpdateCartProfile()
         {
-            CreateMap<Cart, UpdateCartResponse>();
+            CreateMap<Cart, UpdateCartResult>();
         }
     }
 }

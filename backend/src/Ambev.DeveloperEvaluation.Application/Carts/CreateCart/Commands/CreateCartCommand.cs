@@ -1,9 +1,9 @@
-using Ambev.DeveloperEvaluation.Application.Carts.CreateCart.Responses;
+using Ambev.DeveloperEvaluation.Application.Carts.CreateCart.Results;
 using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Carts.CreateCart.Commands
 {
-    public class CreateCartCommand : IRequest<CreateCartResponse>
+    public class CreateCartCommand : IRequest<CreateCartResult>
     {
         public Guid UserId { get; private set; }
 

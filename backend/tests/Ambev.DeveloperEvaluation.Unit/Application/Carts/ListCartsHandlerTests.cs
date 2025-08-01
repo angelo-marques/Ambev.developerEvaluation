@@ -1,8 +1,7 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Carts.ListCarts;
-using Ambev.DeveloperEvaluation.Application.Carts.ListCarts.Responses;
+using Ambev.DeveloperEvaluation.Application.Carts.ListCarts.Results;
 using Ambev.DeveloperEvaluation.Application.Pagination;
 using Ambev.DeveloperEvaluation.Domain.Entities;
-using Ambev.DeveloperEvaluation.Domain.Pagination;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using AutoMapper;
 using FluentAssertions;
@@ -25,7 +24,7 @@ namespace Ambev.DeveloperEvaluation.Unit.Application.Carts
         [Fact]
         public async Task Handle_Should_ReturnPaginatedCarts()
         {
-            var paginationQuery = new PaginationQuery<ListCartResponse>(
+            var paginationQuery = new PaginationQuery<ListCartResult>(
                 pageNumber: 1,
                 pageSize: 10,
                 order: "Date"
@@ -41,7 +40,7 @@ namespace Ambev.DeveloperEvaluation.Unit.Application.Carts
                 Arg.Any<CancellationToken>()
             ).Returns(paginatedResult);
 
-            _mapper.Map<ICollection<ListCartResponse>>(paginatedResult.Items).Returns(mappedCarts);
+            _mapper.Map<ICollection<ListCartResult>>(paginatedResult.Items).Returns(mappedCarts);
 
             var result = await _handler.Handle(paginationQuery, CancellationToken.None);
 
@@ -52,7 +51,7 @@ namespace Ambev.DeveloperEvaluation.Unit.Application.Carts
             result.TotalCount.Should().Be(paginatedResult.TotalItems);
         }
 
-        private static PaginatedResult<Cart> GenerateFakePaginatedCarts()
+        private static DeveloperEvaluation.Domain.Pagination.PaginatedResult<Cart> GenerateFakePaginatedCarts()
         {
             var carts = new List<Cart>();
 
@@ -63,7 +62,7 @@ namespace Ambev.DeveloperEvaluation.Unit.Application.Carts
                 carts.Add(cart);
             }
 
-            return new PaginatedResult<Cart>
+            return new DeveloperEvaluation.Domain.Pagination.PaginatedResult<Cart>
             {
                 Items = carts,
                 CurrentPage = 1,
@@ -72,14 +71,14 @@ namespace Ambev.DeveloperEvaluation.Unit.Application.Carts
             };
         }
 
-        private static ListCartResponse GenerateFakeListCartResponse(Cart cart)
+        private static ListCartResult GenerateFakeListCartResponse(Cart cart)
         {
-            return new ListCartResponse
+            return new ListCartResult
             {
                 Id = cart.Id,
                 UserId = cart.UserId,
                 Date = cart.Date,
-                Products = cart.Products.ConvertAll(p => new ListCartItemResponse
+                Products = cart.Products.ConvertAll(p => new ListCartItemResult
                 {
                     ProductId = p.ProductId,
                     Quantity = p.Quantity

@@ -1,6 +1,6 @@
 ﻿using Ambev.DeveloperEvaluation.Application.Pagination;
 using Ambev.DeveloperEvaluation.Application.Products.ListProducts;
-using Ambev.DeveloperEvaluation.Application.Products.ListProducts.Responses;
+using Ambev.DeveloperEvaluation.Application.Products.ListProducts.Results;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using Ambev.DeveloperEvaluation.Domain.Pagination;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
@@ -27,7 +27,7 @@ namespace Ambev.DeveloperEvaluation.Unit.Application.Products
         [Fact]
         public async Task Handle_Should_ReturnPaginatedProducts()
         {
-            var paginationQuery = new PaginationQuery<ListProductsQuery, ListProductResponse>(
+            var paginationQuery = new PaginationQuery<ListProductsQuery, ListProductResult>(
                 pageNumber: 1,
                 pageSize: 10,
                 order: "Title",
@@ -44,7 +44,7 @@ namespace Ambev.DeveloperEvaluation.Unit.Application.Products
                 Arg.Any<CancellationToken>()
             ).Returns(paginatedResult);
 
-            _mapper.Map<ICollection<ListProductResponse>>(paginatedResult.Items).Returns(mappedProducts);
+            _mapper.Map<ICollection<ListProductResult>>(paginatedResult.Items).Returns(mappedProducts);
 
             var result = await _handler.Handle(paginationQuery, CancellationToken.None);
 
@@ -55,7 +55,7 @@ namespace Ambev.DeveloperEvaluation.Unit.Application.Products
             result.TotalCount.Should().Be(paginatedResult.TotalItems);
         }
 
-        private PaginatedResult<Product> GenerateFakePaginatedProducts()
+        private DeveloperEvaluation.Domain.Pagination.PaginatedResult<Product> GenerateFakePaginatedProducts()
         {
             var products = new List<Product>();
 
@@ -79,7 +79,7 @@ namespace Ambev.DeveloperEvaluation.Unit.Application.Products
                 products.Add(newProduct);
             }
 
-            return new PaginatedResult<Product>
+            return new DeveloperEvaluation.Domain.Pagination.PaginatedResult<Product>
             {
                 Items = products,
                 CurrentPage = 1,
@@ -88,15 +88,15 @@ namespace Ambev.DeveloperEvaluation.Unit.Application.Products
             };
         }
 
-        private static ListProductResponse GenerateFakeListProductResponse(Product product)
+        private static ListProductResult GenerateFakeListProductResponse(Product product)
         {
-            return new ListProductResponse
+            return new ListProductResult
             {
                 Title = product.Title,
                 Price = product.Price,
                 Description = product.Description,
                 Image = product.Image,
-                Category = new ListProductCategoryResponse
+                Category = new ListProductCategoryResult
                 {
                     ExternalId = product.Category.ExternalId,
                     Name = product.Category.Name

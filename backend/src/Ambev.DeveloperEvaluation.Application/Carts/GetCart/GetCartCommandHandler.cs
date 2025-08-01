@@ -1,12 +1,12 @@
 using Ambev.DeveloperEvaluation.Application.Carts.GetCart.Commands;
-using Ambev.DeveloperEvaluation.Application.Carts.GetCart.Responses;
+using Ambev.DeveloperEvaluation.Application.Carts.GetCart.Results;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using AutoMapper;
 using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Carts.GetCart
 {
-    public class GetCartCommandHandler : IRequestHandler<GetCartCommand, GetCartResponse>
+    public class GetCartCommandHandler : IRequestHandler<GetCartCommand, GetCartResult>
     {
         private readonly ICartRepository _cartRepository;
         private readonly IMapper _mapper;
@@ -17,13 +17,13 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.GetCart
             _mapper = mapper;
         }
 
-        public async Task<GetCartResponse> Handle(GetCartCommand request, CancellationToken cancellationToken)
+        public async Task<GetCartResult> Handle(GetCartCommand request, CancellationToken cancellationToken)
         {
             var cart = await _cartRepository.GetByIdAsync(request.Id, cancellationToken);
 
             return cart == null
                 ? throw new KeyNotFoundException($"Cart with ID {request.Id} not found")
-                : _mapper.Map<GetCartResponse>(cart);
+                : _mapper.Map<GetCartResult>(cart);
         }
     }
 }

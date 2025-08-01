@@ -79,10 +79,7 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
 
             return true;
         }
-
-        /// <summary>
-        /// Aplica ordenação dinâmica a uma query usando uma string de ordenação no formato "campo1 asc, campo2 desc"
-        /// </summary>
+      
         private static IQueryable<Cart> ApplySorting(IQueryable<Cart> query, string order)
         {
             var orders = order.Split(',');
@@ -94,7 +91,6 @@ namespace Ambev.DeveloperEvaluation.ORM.Repositories
                     var property = parts[0];
                     var direction = parts[1].Equals("desc", StringComparison.CurrentCultureIgnoreCase) ? "descending" : "ascending";
                     query = query.OrderBy($"{property} {direction}");
-                    //query = query;
                 }
             }
             return query;

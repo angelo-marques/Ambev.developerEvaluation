@@ -1,6 +1,8 @@
-﻿namespace Ambev.DeveloperEvaluation.Domain.Entities
+﻿using Ambev.DeveloperEvaluation.Domain.Common;
+
+namespace Ambev.DeveloperEvaluation.Domain.Entities
 {
-    public class CartItems
+    public class CartItems : BaseEntity
     {
         public Guid ProductId { get; private set; }
         public int Quantity { get; private set; }

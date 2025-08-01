@@ -1,12 +1,12 @@
 using Ambev.DeveloperEvaluation.Application.Pagination;
-using Ambev.DeveloperEvaluation.Application.Products.ListProducts.Responses;
+using Ambev.DeveloperEvaluation.Application.Products.ListProducts.Results;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using AutoMapper;
 using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Products.ListProducts
 {
-    public class ListProductsHandler : IRequestHandler<PaginationQuery<ListProductsQuery, ListProductResponse>, PaginatedResponse<ListProductResponse>>
+    public class ListProductsHandler : IRequestHandler<PaginationQuery<ListProductsQuery, ListProductResult>, PaginatedResult<ListProductResult>>
     {
         private readonly IProductRepository _repository;
         private readonly IMapper _mapper;
@@ -16,7 +16,7 @@ namespace Ambev.DeveloperEvaluation.Application.Products.ListProducts
             _mapper = mapper;
         }
 
-        public async Task<PaginatedResponse<ListProductResponse>> Handle(PaginationQuery<ListProductsQuery, ListProductResponse> request, CancellationToken cancellationToken)
+        public async Task<PaginatedResult<ListProductResult>> Handle(PaginationQuery<ListProductsQuery, ListProductResult> request, CancellationToken cancellationToken)
         {
             var paginatedResult = await _repository.GetPaginatedAsync(
                 request.PageNumber,
@@ -25,9 +25,9 @@ namespace Ambev.DeveloperEvaluation.Application.Products.ListProducts
                 cancellationToken: cancellationToken
             );
 
-            var mappedProducts = _mapper.Map<ICollection<ListProductResponse>>(paginatedResult.Items);
+            var mappedProducts = _mapper.Map<ICollection<ListProductResult>>(paginatedResult.Items);
 
-            return new PaginatedResponse<ListProductResponse>
+            return new PaginatedResult<ListProductResult>
             {
                 Data = mappedProducts,
                 CurrentPage = paginatedResult.CurrentPage,

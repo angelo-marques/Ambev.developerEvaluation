@@ -1,4 +1,4 @@
-using Ambev.DeveloperEvaluation.Application.Products.ListProducts.Responses;
+using Ambev.DeveloperEvaluation.Application.Products.ListProducts.Results;
 using Ambev.DeveloperEvaluation.Domain.Entities;
 using AutoMapper;
 
@@ -9,7 +9,7 @@ namespace Ambev.DeveloperEvaluation.Application.Products.GetProduct
         public ListProductsProfile()
         {
             // Mapeamento de Product para ListProductResponse
-            CreateMap<Product, ListProductResponse>()
+            CreateMap<Product, ListProductResult>()
                 .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Title))
                 .ForMember(dest => dest.Price, opt => opt.MapFrom(src => src.Price))
                 .ForMember(dest => dest.Description, opt => opt.MapFrom(src => src.Description))
@@ -18,7 +18,7 @@ namespace Ambev.DeveloperEvaluation.Application.Products.GetProduct
                 .ForMember(dest => dest.Rating, opt => opt.MapFrom(src => src.Rating));
 
             // Mapeamento entre CategoryInfo e ListProductCategoryInfoResponse
-            CreateMap<Category, ListProductCategoryResponse>()
+            CreateMap<Category, ListProductCategoryResult>()
                 .ForMember(dest => dest.ExternalId, opt => opt.MapFrom(src => src.ExternalId))
                 .ForMember(dest => dest.Name, opt => opt.MapFrom(src => src.Name));
 
@@ -29,8 +29,8 @@ namespace Ambev.DeveloperEvaluation.Application.Products.GetProduct
                 .ForMember(dest => dest.TotalReviews, opt => opt.MapFrom(src => src.TotalReviews));
 
             // Mapeamento de ICollection<Product> para ICollection<ListProductResponse>
-            CreateMap<ICollection<Product>, ICollection<ListProductResponse>>()
-                .ConvertUsing((src, dest, context) => [.. src.Select(product => context.Mapper.Map<ListProductResponse>(product))]);
+            CreateMap<ICollection<Product>, ICollection<ListProductResult>>()
+                .ConvertUsing((src, dest, context) => [.. src.Select(product => context.Mapper.Map<ListProductResult>(product))]);
         }
     }
 }

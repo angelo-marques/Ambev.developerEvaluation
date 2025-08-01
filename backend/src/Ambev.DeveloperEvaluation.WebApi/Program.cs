@@ -8,6 +8,7 @@ using Ambev.DeveloperEvaluation.ORM;
 using Ambev.DeveloperEvaluation.WebApi.Middleware;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using Serilog;
 
 namespace Ambev.DeveloperEvaluation.WebApi;
@@ -27,14 +28,39 @@ public class Program
             builder.Services.AddEndpointsApiExplorer();
 
             builder.AddBasicHealthChecks();
-            builder.Services.AddSwaggerGen();
+
+            builder.Services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "DeveloperEvaluation API", Version = "v1" });
+
+                c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
+                {
+                    In = ParameterLocation.Header,
+                    Description = "Please insert JWT Token",
+                    Name = "Authorization",
+                    Type = SecuritySchemeType.Http,
+                    Scheme = "bearer",
+                    BearerFormat = "JWT"
+                });
+
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
+                        },
+                        new string[] { }
+                    }
+                });
+            });
 
             builder.Services.AddDbContext<DefaultContext>(options =>
                 options.UseNpgsql(
                     builder.Configuration.GetConnectionString("DefaultConnection"),
                     b => b.MigrationsAssembly("Ambev.DeveloperEvaluation.ORM")
                 )
-            );
+            );            
 
             builder.Services.AddJwtAuthentication(builder.Configuration);
 
@@ -52,6 +78,12 @@ public class Program
 
             builder.Services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
+            //builder.Services.Configure<ORM.MongoDb.MongoDbSettings>(
+            // builder.Configuration.GetSection("ConnectionStrings"));
+
+            //builder.Services.AddSingleton<ORM.MongoDb.MongoDbContext>();
+
+
             var app = builder.Build();
             app.UseMiddleware<ValidationExceptionMiddleware>();
 
@@ -62,7 +94,7 @@ public class Program
             }
 
             app.UseHttpsRedirection();
-
+            app.UseCors("AllowSpecificOrigin");
             app.UseAuthentication();
             app.UseAuthorization();
 

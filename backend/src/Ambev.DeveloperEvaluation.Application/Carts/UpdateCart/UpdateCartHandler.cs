@@ -1,5 +1,5 @@
 using Ambev.DeveloperEvaluation.Application.Carts.UpdateCart.Commands;
-using Ambev.DeveloperEvaluation.Application.Carts.UpdateCart.Responses;
+using Ambev.DeveloperEvaluation.Application.Carts.UpdateCart.Results;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Ambev.DeveloperEvaluation.Domain.Services.Interfaces;
 using AutoMapper;
@@ -7,7 +7,7 @@ using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Carts.UpdateCart
 {
-    public class UpdateCartHandler : IRequestHandler<UpdateCartCommand, UpdateCartResponse>
+    public class UpdateCartHandler : IRequestHandler<UpdateCartCommand, UpdateCartResult>
     {
         private readonly ICartRepository _cartRepository;
         private readonly IProductPriceService _productPriceService;
@@ -20,7 +20,7 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.UpdateCart
             _mapper = mapper;
         }
 
-        public async Task<UpdateCartResponse> Handle(UpdateCartCommand command, CancellationToken cancellationToken)
+        public async Task<UpdateCartResult> Handle(UpdateCartCommand command, CancellationToken cancellationToken)
         {
             var cart = await _cartRepository.GetByIdAsync(command.Id, cancellationToken)
                 ?? throw new KeyNotFoundException($"Cart with ID {command.Id} not found.");
@@ -38,7 +38,7 @@ namespace Ambev.DeveloperEvaluation.Application.Carts.UpdateCart
 
             var updatedCart = await _cartRepository.UpdateAsync(cart, cancellationToken);
 
-            return _mapper.Map<UpdateCartResponse>(updatedCart);
+            return _mapper.Map<UpdateCartResult>(updatedCart);
         }
     }
 }
