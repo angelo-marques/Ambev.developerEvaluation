@@ -6,17 +6,10 @@ using Ambev.DeveloperEvaluation.Domain.Repositories;
 using AutoMapper;
 using FluentAssertions;
 using NSubstitute;
-using System;
-using System.Threading;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Ambev.DeveloperEvaluation.Unit.Application.Products
 {
-    /// <summary>
-    /// Testes unitários para CreateProductHandler. Garante mapeamento correto do comando para entidade,
-    /// persistência via repositório e retorno do resultado.
-    /// </summary>
     public class CreateProductHandlerTests
     {
         [Fact(DisplayName = "Dado comando válido quando criar produto então retorna resultado com Id")]
