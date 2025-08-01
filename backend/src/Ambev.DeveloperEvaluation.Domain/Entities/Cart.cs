@@ -7,9 +7,10 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         public Guid UserId { get; private set; }
         public DateTime Date { get; private set; }
         public decimal PriceTotal { get; private set; }
+        public User User { get; set; }
         public List<CartItems> Products { get; private set; } = [];
 
-        private Cart() { }
+        public Cart() { }
 
         public Cart(Guid userId)
         {

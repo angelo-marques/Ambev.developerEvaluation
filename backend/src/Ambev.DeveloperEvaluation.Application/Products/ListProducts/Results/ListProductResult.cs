@@ -1,7 +1,6 @@
 
 namespace Ambev.DeveloperEvaluation.Application.Products.ListProducts.Results
 {
-
     public class ListProductResult
     {
         public Guid Id { get; set; }

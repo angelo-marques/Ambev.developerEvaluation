@@ -11,7 +11,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Entities
         public Category Category { get; private set; } = default!;
         public Rating Rating { get; private set; } = default!;
 
-        private Product() { }
+        public Product() { }
 
         public Product(string title, decimal price, string description, string image, Category category, Rating rating)
         {
